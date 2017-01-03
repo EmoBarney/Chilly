@@ -3,16 +3,16 @@
     <form id="login-form1" class="list">
       <ion-list id="login-list4">
         <label class="item item-input" id="login-input1">
-          <span class="input-label">Username</span>
-          <input type="text" placeholder="">
+          <span class="input-label">E-mail</span>
+          <input type="text" placeholder="ie@example.com" ng-model="loginForm.email">
         </label>
         <label class="item item-input" id="login-input2">
           <span class="input-label">Password</span>
-          <input type="password" placeholder="">
+          <input type="password" placeholder="*******" ng-model="loginForm.password">
         </label>
       </ion-list>
       <div class="spacer" style="height: 40px;"></div>
-      <a ui-sref="tabsController.owned" id="login-button1" class="button button-positive  button-block">Sign In</a>
+      <button id="login-button1" class="button button-positive  button-block" ng-click="login()">Sign In</button>
       <a ui-sref="signup" id="login-button2" class="button button-positive  button-block button-clear">Or create an account</a>
     </form>
   </ion-content>
