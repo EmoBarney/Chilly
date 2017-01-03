@@ -18,14 +18,9 @@ angular.module('app.services', [])
 		  	var errorCode = error.code;
 		  	var errorMessage = error.message;
 		  
-		  	if(errorCode === "auth/email-already-in-use"){
-		  		alert("This email is already in use.");
-
-		  	} else{
-		  		alert(errorMessage);
-
+		  	if(errorCode != "auth/email-already-in-use"){
+				console.log(errorMessage);
 		  	}
-		  	console.log(error);
 
 			});
 		

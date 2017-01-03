@@ -109,7 +109,6 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 		var hasCorrectLength = false;
 		var hasSamePassword = false;
 
-
 		console.log(email + password + retype);
 
 	  var verifyInput = function(email, password, retype){
@@ -134,7 +133,6 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 			}
 		}
 		else{
-			//if(email.length>0 && !email)
 			$ionicPopup.alert({
 				title: "Sign Up Failed",
 				template: "Email is invalid."});
@@ -147,7 +145,8 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 		if(hasEmail&&hasCorrectLength&&hasSamePassword){
 			console.log("Account is valid.");
 			SignupService
-				.createUser(email, password)			
+				.createUser(email, password)
+
 				.then(function(user){
 					if(user){
 						user.sendEmailVerification().then(function() {
@@ -163,6 +162,13 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 
 
 					$state.go("login");
+				    }
+				    else{
+				    	$ionicPopup.alert({
+							title: "Sign Up Failed.",
+							template: "This email is already in use."
+
+						});
 				    }
 				});	
 		}else{
