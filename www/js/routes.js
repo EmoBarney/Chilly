@@ -58,6 +58,7 @@ angular.module('app.routes', [])
     controller: 'signupCtrl'
   })
 
+//Set a fallback state so that the login get's called as first route
 $urlRouterProvider.otherwise('/login')
 
   
