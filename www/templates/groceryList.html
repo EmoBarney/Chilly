@@ -1,15 +1,16 @@
 <ion-view title="Grocery List" id="page4">
   <ion-content padding="true" class="has-header">
     <ion-list id="groceryList-list3">
-      <ion-item class="item-icon-right" id="groceryList-list-item11">Item 1
-        <i class="icon ion-android-checkbox-outline-blank"></i>
-      </ion-item>
-      <ion-item class="item-icon-right" id="groceryList-list-item12">Item 2
-        <i class="icon ion-android-checkbox-outline-blank"></i>
-      </ion-item>
-      <ion-item class="item-icon-right" id="groceryList-list-item13">Item 3
-        <i class="icon ion-android-checkbox-outline-blank"></i>
+      <ion-item id="groceryList-list-item" class="fade" ng-repeat="item in items">{{item}}
+      <span ng-click="deleteItem($index)">X</span>
       </ion-item>
     </ion-list>
+    <div id="input-button wrapper" class="item-input-inset">
+      <label class="item" id="addItemInput">
+        <input type="text" placeholder="" ng-model="input.newItem">
+      </label>
+      <button id="addItemButton" class="button button-positive" ng-click="addItem(input.newItem)"> Add Item </button>
+      <button id="deleteItemButton" class="button button-assertive" ng-click="clearAll()"> Clear All </button>
+    </div>
   </ion-content>
 </ion-view>
