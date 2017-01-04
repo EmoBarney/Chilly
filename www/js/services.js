@@ -85,4 +85,46 @@ angular.module('app.services', [])
 	}
 
 }])
+
+
+	 .service('GroceryListService', [function(){
+        
+        var db = firebase.database();
+        
+
+        return{
+         	createItem: function(itemName){        		
+        	    var user = firebase.auth().currentUser;
+        	    var groceryPath = 'GroceryList/' + user.uid + '/'+ itemName;
+         		db.ref(groceryPath).set(itemName);
+
+         	},
+
+            deleteItem: function(deletedItem){
+         	    var user = firebase.auth().currentUser;
+         	    var groceryPath = 'GroceryList/' + user.uid +'/' + deletedItem;
+         	    db.ref(groceryPath).remove();
+
+         	},
+
+         	deleteAll: function(itemsArray){
+         		var user = firebase.auth().currentUser;
+         		var groceryPath = 'GroceryList/' + user.uid + '/';
+         		// for(var i = 0; i < itemsArray.length; i++){
+         		// db.ref(groceryPath).child(itemsArray[i]).remove();
+         		// }
+         		
+         	}
+
+         }
+
+
+
+
+
+
+
+        }])
+
+
 ;
