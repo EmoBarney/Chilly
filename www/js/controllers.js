@@ -90,16 +90,17 @@ function ($scope, $stateParams, $state, loginService) {
 
 }])
    
-.controller('groceryListCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('groceryListCtrl', ['$scope', '$stateParams', 'GroceryListService',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, GroceryListService) {
 	//get existed items from service and add to the items list
 	//delete item in items list view and same item in database items.
 
 	/* ng-model binding object initialization */
 	$scope.input = {};
 	/* item list items */
+	
 	$scope.items = [
 		"apple",
 		"banana",
@@ -108,15 +109,23 @@ function ($scope, $stateParams) {
 	];
 	
 	$scope.addItem = function(){
-		$scope.items.push($scope.input.newItem);
-		$scope.input = {};
-		//console.log("fdsfd" + $scope.input.newItem);
-	};
-	$scope.deleteItem = function(itemIndex){
-		$scope.items.splice(itemIndex, 1);
+		if($scope.input.newItem){
+			$scope.items.push($scope.input.newItem);
+			$scope.input = {};
+		
+		    GroceryListService.createItem($scope.items[$scope.items.length-1]);
+		}
+	 };
 
+	$scope.deleteItem = function(itemIndex){
+		var deletedItem = $scope.items.splice(itemIndex, 1);
+		if(deletedItem){
+			GroceryListService.deleteItem(deletedItem);
+		}
 	};
 	$scope.clearAll = function(){
+		
+		//GroceryListService.deleteAll($scope.items);
 		$scope.items = [];
 	};
 }])
