@@ -83,21 +83,19 @@ angular.module('app.services', [])
 
 .service('ownedService', [function(){
 	return{
-		updateItem: function( item ){
+		updateItem: function( item ){ //adds item as well
 
-			var user = firebase.auth().currentUser;
-			var uid = user.uid;
+			var uid = firebase.auth().currentUser.uid;
 
-			firebase.database().ref('Fridge/' + uid + '/' + item.name).set({
+			return firebase.database().ref('Fridge/' + uid + '/' + item.name).set({
 		    	quantity: item.quantity,
 		    	expiration: item.expiration
 		  	});
 
 		},
-		addItem: function( item ){
+		addItem: function( item ){ //Use updateItem instead
 
-			var user = firebase.auth().currentUser;
-			var uid = user.uid;
+			var uid = firebase.auth().currentUser.uid;
 
 			var postData = {
 				quantity: item.quantity,
@@ -109,6 +107,18 @@ angular.module('app.services', [])
 
   			return firebase.database().ref().update(updates);
 
+		},
+		removeItem: function( item ){
+
+			var uid = firebase.auth().currentUser.uid;
+
+			return firebase.database().ref( 'Fridge/' + uid + '/' + item ).remove();
+		},
+		getItems: function(){
+
+			var uid = firebase.auth().currentUser.uid;
+
+			return firebase.database().ref('Fridge/' + uid ).once('value');
 		}
 	}
 

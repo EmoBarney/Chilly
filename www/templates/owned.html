@@ -1,9 +1,18 @@
 <ion-view title="Owned" id="page2">
   <ion-content padding="true" class="has-header">
     <ion-list id="owned-list1">
-      <ion-item id="owned-list-item4">Item 1</ion-item>
-      <ion-item id="owned-list-item5">Item 2</ion-item>
-      <ion-item id="owned-list-item6">Item 3</ion-item>
+      <ion-item id="owned-items" class="fade" ng-repeat="item in items">
+      {{item}}
+        <span ng-click="deleteItem($index)">X</span>
+      </ion-item>
     </ion-list>
+    <form id="addItemForm" class="list">
+      <input id="itemName" placeholder="Item" ng-model="item.name">
+      <input id="itemQuantity" placeholder="Quantity(Optional)" ng-model="item.quantity">
+      <input id="itemExpiration" placeholder="Expiration(Optional)" ng-model="item.expiration">
+      <button id="addToFridge" ng-click="add()">
+      Add Item
+      </button>
+    </form>
   </ion-content>
 </ion-view>

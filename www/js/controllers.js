@@ -1,21 +1,35 @@
 angular.module('app.controllers', ['ionic','app.services'])
   
-.controller('ownedCtrl', ['$scope', '$stateParams', 'ownedService', '$ionicPopup',
+.controller('ownedCtrl', ['$scope', '$stateParams', 'ownedService', '$ionicPopup', '$state',
 // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, ownedService, $ionicPopup ) {
+function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
 
-	$scope.fridge = {};
+	$scope.items = [];
 
-	$scope.item = {
-		name: null,
-		quantity: null,
-		expiration: null
+	$scope.item = {};
+	
+	var getItems = function(){
+		return ownedService
+		.getItems()
+		.then( function(snapshot){
+			snapshot.forEach( function(snap){
+				$scope.items.push({
+					name: snap.key,
+					quantity: snap.val().quantity,
+					expiration: snap.val().expiration
+				});
+			});
+		});
 	};
 
+	getItems().then( function(){
+		$state.go($state.current, {}, {reload: true});
+	}); 
+
 	//save does both save, add, and delete
-	$scope.save = function(){
+	$scope.add = function(){
 
 		console.log( $scope.item.name );
 		console.log( $scope.item.quantity );
@@ -23,10 +37,12 @@ function ($scope, $stateParams, ownedService, $ionicPopup ) {
 
 		if( $scope.item.name ){
 			ownedService.updateItem($scope.item);
+			$scope.items.push($scope.item);
+			$scope.item = {};
 		}
 		else{
 			$ionicPopup.alert({
-				title: "No item name spcified!",
+				title: "No item name specified!",
 				template: "Please include an item name."
 			})
 		}
@@ -39,22 +55,18 @@ function ($scope, $stateParams, ownedService, $ionicPopup ) {
 		}
 		else{
 			$ionicPopup.alert({
-				title: "No item name spcified!",
+				title: "No item name specified!",
 				template: "Please include an item name."
-			})
+			});
 		}
-
 	};
 
-	/* Use .save instead, since firebase set() does both update and add
-	$scope.addItem = function(){
+	$scope.deleteItem = function( index ){
 
-		console.log( $scope.item.name );
-		console.log( $scope.item.quantity );
-		console.log( $scope.item.expiration );
-
-		ownedService.addItem($scope.item);
-	}; */
+		var toDelete = $scope.items[index].name;
+		ownedService.removeItem(toDelete);
+		$scope.items.splice(index, 1);
+	};
 
 }])
    
@@ -95,9 +107,9 @@ function ($scope, $stateParams) {
 		"rice"
 	];
 	
-	$scope.addItem = function(item){
-		$scope.items.push(item);
-		$scope.input.newItem = null;
+	$scope.addItem = function(){
+		$scope.items.push($scope.input.newItem);
+		$scope.input = {};
 		//console.log("fdsfd" + $scope.input.newItem);
 	};
 	$scope.deleteItem = function(itemIndex){
@@ -110,9 +122,6 @@ function ($scope, $stateParams) {
 }])
 
 
-
-
-      
 .controller('loginCtrl', ['$scope', '$stateParams',
 '$ionicPopup','loginService', '$state',
  // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -125,6 +134,7 @@ function ($scope, $stateParams, $ionicPopup, loginService, $state) {
 	loginService.loginStatusChanged(function(user){
 		if( user ){
 			console.log('Logged in!');
+			$scope.loginForm = {};
 			$state.go('tabsController.owned', {updateRequired:true});
 		}
 
