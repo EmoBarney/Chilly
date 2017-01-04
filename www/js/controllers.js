@@ -1,11 +1,61 @@
-angular.module('app.controllers', ['ionic','app.services',])
-//var app = angular.module("app", ["checklist-model"])
-
-.controller('ownedCtrl', ['$scope', '$stateParams',
+angular.module('app.controllers', ['ionic','app.services'])
+  
+.controller('ownedCtrl', ['$scope', '$stateParams', 'ownedService', '$ionicPopup',
 // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams ) {
+function ($scope, $stateParams, ownedService, $ionicPopup ) {
+
+	$scope.fridge = {};
+
+	$scope.item = {
+		name: null,
+		quantity: null,
+		expiration: null
+	};
+
+	//save does both save, add, and delete
+	$scope.save = function(){
+
+		console.log( $scope.item.name );
+		console.log( $scope.item.quantity );
+		console.log( $scope.item.expiration );
+
+		if( $scope.item.name ){
+			ownedService.updateItem($scope.item);
+		}
+		else{
+			$ionicPopup.alert({
+				title: "No item name spcified!",
+				template: "Please include an item name."
+			})
+		}
+
+	};
+
+	$scope.remove = function(){
+		if( $scope.item.name ){
+			ownedService.removeItem($scope.item.name);
+		}
+		else{
+			$ionicPopup.alert({
+				title: "No item name spcified!",
+				template: "Please include an item name."
+			})
+		}
+
+	};
+
+	/* Use .save instead, since firebase set() does both update and add
+	$scope.addItem = function(){
+
+		console.log( $scope.item.name );
+		console.log( $scope.item.quantity );
+		console.log( $scope.item.expiration );
+
+		ownedService.addItem($scope.item);
+	}; */
+
 }])
    
 .controller('expirationsCtrl', ['$scope', '$stateParams', '$state', 'loginService',
@@ -65,8 +115,6 @@ function ($scope, $stateParams, GroceryListService) {
 		//GroceryListService.deleteAll($scope.items);
 		$scope.items = [];
 	};
-
-
 }])
 
 
@@ -111,13 +159,9 @@ function ($scope, $stateParams, $ionicPopup, loginService, $state) {
 				template: 'Please enter email and password'
 			});
 		}
-
-		
 		console.log('email entered: ' + email);
-		console.log('password entered: ' + password);
-		
+		console.log('password entered:   ' + password);
 	};
-
 }])
    
 .controller('signupCtrl', ['$scope', '$stateParams', '$ionicPopup', '$state', 'SignupService',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -174,7 +218,6 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 			$ionicPopup.alert({
 				title: "Sign Up Failed",
 				template: "Email is invalid."});
-
 		}
 	}
 		console.log("here"+ email + password + retype);
@@ -184,43 +227,28 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 			console.log("Account is valid.");
 			SignupService
 				.createUser(email, password)
-
 				.then(function(user){
 					if(user){
 						user.sendEmailVerification().then(function() {
 	 						$ionicPopup.alert({
-	
 	 							template: "A verification email has been sent to your email address."
-
 	 						}) // Email sent.
 						}, function(error) {
 	 			 				console.log(error.code);// An error happened.
 								return;
 						});
-
-
 					$state.go("login");
-
 				    }
 				    else{
 				    	$ionicPopup.alert({
 							title: "Sign Up Failed.",
 							template: "This email is already in use."
-
 						});
 				    }
 				});	
 		}else{
 			console.log("Input invalid.");
-
 		}
-	
-
-
 	}//end of signup function
-
-	
-
-
 }])
  

@@ -23,14 +23,9 @@ angular.module('app.services', [])
 		  	}
 
 			});
-		
 		console.log(user);
-		return user;
-		
+		return user;		
 		}
-
-
-
 };
 
 }])
@@ -86,7 +81,6 @@ angular.module('app.services', [])
 
 }])
 
-
 	 .service('GroceryListService', [function(){
         
         var db = firebase.database();
@@ -120,11 +114,39 @@ angular.module('app.services', [])
 
 
 
-
-
-
-
         }])
 
 
+.service('ownedService', [function(){
+	return{
+		updateItem: function( item ){
+
+			var user = firebase.auth().currentUser;
+			var uid = user.uid;
+
+			firebase.database().ref('Fridge/' + uid + '/' + item.name).set({
+		    	quantity: item.quantity,
+		    	expiration: item.expiration
+		  	});
+
+		},
+		addItem: function( item ){
+
+			var user = firebase.auth().currentUser;
+			var uid = user.uid;
+
+			var postData = {
+				quantity: item.quantity,
+				expiration: item.expiration
+			}
+
+			var updates = {};
+  			updates['/Fridge/' + uid + '/' + item.name] = postData;
+
+  			return firebase.database().ref().update(updates);
+
+		}
+	}
+
+}])
 ;
