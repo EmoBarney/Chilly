@@ -1,10 +1,61 @@
 angular.module('app.controllers', ['ionic','app.services'])
   
-.controller('ownedCtrl', ['$scope', '$stateParams',
+.controller('ownedCtrl', ['$scope', '$stateParams', 'ownedService', '$ionicPopup',
 // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams ) {
+function ($scope, $stateParams, ownedService, $ionicPopup ) {
+
+	$scope.fridge = {};
+
+	$scope.item = {
+		name: null,
+		quantity: null,
+		expiration: null
+	};
+
+	//save does both save, add, and delete
+	$scope.save = function(){
+
+		console.log( $scope.item.name );
+		console.log( $scope.item.quantity );
+		console.log( $scope.item.expiration );
+
+		if( $scope.item.name ){
+			ownedService.updateItem($scope.item);
+		}
+		else{
+			$ionicPopup.alert({
+				title: "No item name spcified!",
+				template: "Please include an item name."
+			})
+		}
+
+	};
+
+	$scope.remove = function(){
+		if( $scope.item.name ){
+			ownedService.removeItem($scope.item.name);
+		}
+		else{
+			$ionicPopup.alert({
+				title: "No item name spcified!",
+				template: "Please include an item name."
+			})
+		}
+
+	};
+
+	/* Use .save instead, since firebase set() does both update and add
+	$scope.addItem = function(){
+
+		console.log( $scope.item.name );
+		console.log( $scope.item.quantity );
+		console.log( $scope.item.expiration );
+
+		ownedService.addItem($scope.item);
+	}; */
+
 }])
    
 .controller('expirationsCtrl', ['$scope', '$stateParams', '$state', 'loginService',
@@ -76,7 +127,7 @@ function ($scope, $stateParams, $ionicPopup, loginService, $state) {
 
 		
 		console.log('email entered: ' + email);
-		console.log('password entered: ' + password);
+		console.log('password entered:   ' + password);
 		
 	};
 
