@@ -82,9 +82,36 @@ function ($scope, $stateParams, $state, loginService) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+	//get existed items from service and add to the items list
+	//delete item in items list view and same item in database items.
 
+	/* ng-model binding object initialization */
+	$scope.input = {};
+	/* item list items */
+	$scope.items = [
+		"apple",
+		"banana",
+		"noodle",
+		"rice"
+	];
+	
+	$scope.addItem = function(item){
+		$scope.items.push(item);
+		$scope.input.newItem = null;
+		//console.log("fdsfd" + $scope.input.newItem);
+	};
+	$scope.deleteItem = function(itemIndex){
+		$scope.items.splice(itemIndex, 1);
 
+	};
+	$scope.clearAll = function(){
+		$scope.items = [];
+	};
 }])
+
+
+
+
       
 .controller('loginCtrl', ['$scope', '$stateParams',
 '$ionicPopup','loginService', '$state',
@@ -124,13 +151,9 @@ function ($scope, $stateParams, $ionicPopup, loginService, $state) {
 				template: 'Please enter email and password'
 			});
 		}
-
-		
 		console.log('email entered: ' + email);
 		console.log('password entered:   ' + password);
-		
 	};
-
 }])
    
 .controller('signupCtrl', ['$scope', '$stateParams', '$ionicPopup', '$state', 'SignupService',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -187,7 +210,6 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 			$ionicPopup.alert({
 				title: "Sign Up Failed",
 				template: "Email is invalid."});
-
 		}
 	}
 		console.log("here"+ email + password + retype);
@@ -197,42 +219,28 @@ function ($scope, $stateParams, $ionicPopup, $state, SignupService) {
 			console.log("Account is valid.");
 			SignupService
 				.createUser(email, password)
-
 				.then(function(user){
 					if(user){
 						user.sendEmailVerification().then(function() {
 	 						$ionicPopup.alert({
-	
 	 							template: "A verification email has been sent to your email address."
-
 	 						}) // Email sent.
 						}, function(error) {
 	 			 				console.log(error.code);// An error happened.
 								return;
 						});
-
-
 					$state.go("login");
 				    }
 				    else{
 				    	$ionicPopup.alert({
 							title: "Sign Up Failed.",
 							template: "This email is already in use."
-
 						});
 				    }
 				});	
 		}else{
 			console.log("Input invalid.");
-
 		}
-	
-
-
 	}//end of signup function
-
-	
-
-
 }])
  
