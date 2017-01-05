@@ -8,7 +8,11 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
 
 	$scope.items = [];
 
-	$scope.item = {};
+	$scope.item = {
+		name: null,
+		quantity: null,
+		expiration: null
+	};
 	
 	var getItems = function(){
 		return ownedService
@@ -31,14 +35,28 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
 	//save does both save, add, and delete
 	$scope.add = function(){
 
+		/*
 		console.log( $scope.item.name );
 		console.log( $scope.item.quantity );
-		console.log( $scope.item.expiration );
+		console.log( $scope.item.expiration ); */
 
 		if( $scope.item.name ){
+
+			if( !$scope.item.quantity ){
+				$scope.item.quantity = "";
+			}
+			if( !$scope.item.expiration ){
+				$scope.item.expiration = "";
+			}
 			ownedService.updateItem($scope.item);
 			$scope.items.push($scope.item);
-			$scope.item = {};
+			console.log( 'Added Item: '+ $scope.item.name +
+				', quant + exp: ' + $scope.item.quantity + $scope.item.expiration);
+			$scope.item = {
+				name: null,
+				quantity: null,
+				expiration: null
+			};
 		}
 		else{
 			$ionicPopup.alert({
@@ -49,9 +67,13 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
 
 	};
 
-	$scope.remove = function(){
-		if( $scope.item.name ){
-			ownedService.removeItem($scope.item.name);
+	$scope.deleteItem = function( index ){
+
+		var toDelete = $scope.items[index].name;
+		if( toDelete ){
+			ownedService.removeItem(toDelete);
+			$scope.items.splice(index, 1);
+			console.log( 'Deleted item: ' + toDelete );
 		}
 		else{
 			$ionicPopup.alert({
@@ -59,13 +81,7 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
 				template: "Please include an item name."
 			});
 		}
-	};
 
-	$scope.deleteItem = function( index ){
-
-		var toDelete = $scope.items[index].name;
-		ownedService.removeItem(toDelete);
-		$scope.items.splice(index, 1);
 	};
 
 }])
