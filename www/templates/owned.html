@@ -4,6 +4,7 @@
       <ion-item id="owned-items" class="fade" ng-repeat="item in items">
       {{item}}
         <span ng-click="deleteItem($index)">X</span>
+        <span ng-click="moveItem($index)">></span>
       </ion-item>
     </ion-list>
     <form id="addItemForm" class="list">

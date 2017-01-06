@@ -156,6 +156,9 @@ angular.module('app.services', [])
 			var uid = firebase.auth().currentUser.uid;
 
 			return firebase.database().ref('Fridge/' + uid ).once('value');
+		},
+		moveToGrocery: function(){
+
 		}
 	}
 

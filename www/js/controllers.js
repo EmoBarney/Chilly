@@ -1,10 +1,11 @@
 angular.module('app.controllers', ['ionic','app.services'])
   
-.controller('ownedCtrl', ['$scope', '$stateParams', 'ownedService', '$ionicPopup', '$state',
+.controller('ownedCtrl', ['$scope', '$stateParams', 'ownedService', '$ionicPopup', 
+	'$state', 'GroceryListService',
 // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
+function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListService ) {
 
 	$scope.items = [];
 
@@ -83,6 +84,13 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state ) {
 		}
 
 	};
+
+	$scope.moveItem = function( index ){
+		var toMove = $scope.items[index].name;
+		GroceryListService.createItem( toMove );
+		$scope.deleteItem(index);
+		console.log('Moved ' + toMove + ' to grocery list.');
+	}
 
 }])
    
