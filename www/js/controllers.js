@@ -7,14 +7,20 @@ angular.module('app.controllers', ['ionic','app.services'])
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListService ) {
 
+	//List of all items in the fridge
 	$scope.items = [];
-
+	//Template of each item
 	$scope.item = {
 		name: null,
 		quantity: null,
 		expiration: null
 	};
 	
+	/* getItems()
+	 * Description: Function that pushes all the items in the db to $scope.items
+	 * Params: none
+	 * Return: none
+	 */
 	var getItems = function(){
 		return ownedService
 		.getItems()
@@ -28,12 +34,16 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListSe
 			});
 		});
 	};
-
+	//Call getItems() and update the ionic view whenever called
 	getItems().then( function(){
 		$state.go($state.current, {}, {reload: true});
 	}); 
 
-	//save does both save, add, and delete
+	/* add()
+	 * Description: Function that adds an item to the fridge
+	 * Params: none
+	 * Return: none
+	 */
 	$scope.add = function(){
 
 		/*
