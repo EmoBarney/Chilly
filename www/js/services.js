@@ -130,7 +130,8 @@ angular.module('app.services', [])
 
 			var uid = firebase.auth().currentUser.uid;
 
-			return firebase.database().ref('Fridge/' + uid + '/' + item.name).set({
+			return firebase.database().ref('Fridge/' + uid + '/items/' + item.name)
+			.set({
 		    	quantity: item.quantity,
 		    	expiration: item.expiration
 		  	});
@@ -146,7 +147,7 @@ angular.module('app.services', [])
 			}
 
 			var updates = {};
-  			updates['/Fridge/' + uid + '/' + item.name] = postData;
+  			updates['/Fridge/' + uid + '/items/' + item.name] = postData;
 
   			return firebase.database().ref().update(updates);
 
@@ -155,13 +156,13 @@ angular.module('app.services', [])
 
 			var uid = firebase.auth().currentUser.uid;
 
-			return firebase.database().ref( 'Fridge/' + uid + '/' + item ).remove();
+			return firebase.database().ref( 'Fridge/' + uid + '/items/' + item ).remove();
 		},
 		getItems: function(){
 
 			var uid = firebase.auth().currentUser.uid;
 
-			return firebase.database().ref('Fridge/' + uid ).once('value');
+			return firebase.database().ref('Fridge/' + uid + '/items').once('value');
 		},
 		moveToGrocery: function(){
 
