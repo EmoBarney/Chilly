@@ -101,12 +101,13 @@ angular.module('app.services', [])
 
          	},
 
-         	deleteAll: function(itemsArray){
+         	deleteAll: function(){
          		var user = firebase.auth().currentUser;
-         		var groceryPath = 'GroceryList/' + user.uid + '/';
-         		// for(var i = 0; i < itemsArray.length; i++){
-         		// db.ref(groceryPath).child(itemsArray[i]).remove();
-         		// }
+         		var groceryPath = 'GroceryList/' + user.uid;
+  
+         		//db.ref(groceryPath).child(itemsArray[i]).remove();
+         		db.ref(groceryPath) = null;
+         	 }
          		
          	}
 

@@ -141,7 +141,7 @@ function ($scope, $stateParams, GroceryListService) {
 	};
 	$scope.clearAll = function(){
 		
-		//GroceryListService.deleteAll($scope.items);
+		GroceryListService.deleteAll();
 		$scope.items = [];
 	};
 }])
