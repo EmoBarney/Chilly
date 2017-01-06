@@ -89,30 +89,34 @@ angular.module('app.services', [])
         return{
          	createItem: function(itemName){        		
         	    var user = firebase.auth().currentUser;
-        	    var groceryPath = 'GroceryList/' + user.uid + '/'+ itemName;
+        	    console.log(itemName);
+        	    var groceryPath = 'GroceryList/' + user.uid + '/items' + '/' + itemName;
          		db.ref(groceryPath).set(itemName);
 
          	},
 
             deleteItem: function(deletedItem){
          	    var user = firebase.auth().currentUser;
-         	    var groceryPath = 'GroceryList/' + user.uid +'/' + deletedItem;
+         	    var groceryPath = 'GroceryList/' + user.uid +'/items/' + deletedItem;
          	    db.ref(groceryPath).remove();
 
          	},
 
          	deleteAll: function(itemsArray){
          		var user = firebase.auth().currentUser;
-         		var groceryPath = 'GroceryList/' + user.uid + '/';
-         		// for(var i = 0; i < itemsArray.length; i++){
-         		// db.ref(groceryPath).child(itemsArray[i]).remove();
-         		// }
+
+         		var groceryPath = 'GroceryList/' + user.uid + '/items';
+  				db.ref(groceryPath).remove();
+         		//db.ref(groceryPath).child(itemsArray[i]).remove();
+         		//db.ref(groceryPath).set(null);
+
+         		// //var postData = {};
+         		// var updates = {};
+         		// updates['/GroceryList/' + user.uid] = null;
+         		// db.ref().update(updates);
+         	 }
          		
          	}
-
-         }
-
-
 
         }])
 
