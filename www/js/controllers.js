@@ -132,8 +132,10 @@ function ($scope, $stateParams, GroceryListService) {
 		"rice"
 	];
 	
+
 	$scope.addItem = function(){
 		if($scope.input.newItem){
+
 			$scope.items.push($scope.input.newItem);
 			$scope.input = {};
 		
