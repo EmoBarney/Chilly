@@ -102,8 +102,9 @@ angular.module('app.services', [])
 
          	},
 
-         	deleteAll: function(){
+         	deleteAll: function(itemsArray){
          		var user = firebase.auth().currentUser;
+
          		var groceryPath = 'GroceryList/' + user.uid + '/items';
   				db.ref(groceryPath).remove();
          		//db.ref(groceryPath).child(itemsArray[i]).remove();
@@ -116,10 +117,6 @@ angular.module('app.services', [])
          	 }
          		
          	}
-
-         
-
-
 
         }])
 
@@ -136,7 +133,7 @@ angular.module('app.services', [])
 		    	expiration: item.expiration
 		  	});
 
-		},
+		}, /*
 		addItem: function( item ){ //Use updateItem instead
 
 			var uid = firebase.auth().currentUser.uid;
@@ -151,7 +148,7 @@ angular.module('app.services', [])
 
   			return firebase.database().ref().update(updates);
 
-		},
+		}, */
 		removeItem: function( item ){
 
 			var uid = firebase.auth().currentUser.uid;
