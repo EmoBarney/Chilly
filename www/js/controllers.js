@@ -124,10 +124,10 @@ function ($scope, $stateParams, $state, loginService) {
 
 }])
    
-.controller('groceryListCtrl', ['$scope', '$stateParams', 'GroceryListService',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('groceryListCtrl', ['$scope', '$stateParams', 'GroceryListService', '$ionicPopup',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, GroceryListService) {
+function ($scope, $stateParams, GroceryListService, $ionicPopup) {
 	//get existed items from service and add to the items list
 	//delete item in items list view and same item in database items.
 
@@ -144,24 +144,35 @@ function ($scope, $stateParams, GroceryListService) {
 	
 
 	$scope.addItem = function(){
-		if($scope.input.newItem){
-
+	//var exist = false;
+	if($scope.input.newItem){
+		if($scope.items.includes($scope.input.newItem)){
+				return $ionicPopup.alert({
+						title: "Cannot Add Item",
+						template: "Item already in the list"
+				});
+				
+			}
+		}
 			$scope.items.push($scope.input.newItem);
 			$scope.input = {};
 		
 		    GroceryListService.createItem($scope.items[$scope.items.length-1]);
-		}
-	 };
+	};
+	
 
 	$scope.deleteItem = function(itemIndex){
+		//view
 		var deletedItem = $scope.items.splice(itemIndex, 1);
+		//database
 		if(deletedItem){
 			GroceryListService.deleteItem(deletedItem);
 		}
 	};
 	$scope.clearAll = function(){
-		
+		//database
 		GroceryListService.deleteAll();
+		//view
 		$scope.items = [];
 	};
 }])
