@@ -90,7 +90,7 @@ angular.module('app.services', [])
          	createItem: function(itemName){        		
         	    var user = firebase.auth().currentUser;
         	    console.log(itemName);
-        	    var groceryPath = 'GroceryList/' + user.uid + '/items' + '/' + itemName;
+        	    var groceryPath = 'GroceryList/' + user.uid + '/items/' + itemName + '/name';
          		db.ref(groceryPath).set(itemName);
 
          	},
@@ -114,11 +114,35 @@ angular.module('app.services', [])
          		// var updates = {};
          		// updates['/GroceryList/' + user.uid] = null;
          		// db.ref().update(updates);
-         	 }
+         	 },
+         	getItems: function(){
+         		var user = firebase.auth().currentUser;
+         		console.log(user.uid);
+         		// return db.ref('GroceryList/' + user.uid + '/items').orderByChild("timestamp").on('child_added');
+         		return db.ref('GroceryList/' + user.uid + '/items' ).orderByChild("timestamp").once('value');
+         
+    //      		firebase.auth().onAuthStateChanged(function(user) {
+				//   if (user) {
+				//     // User is signed in.
+				// 	console.log('user is signed in.');
+				// 	console.log(user.uid);
+    //      			var groceryPath = 'GroceryList/' + user.uid + '/items';
+    //      			//get Items snapshot from database
+    //      			return db.ref(groceryPath).once('value');  
+
+				//    } //else {
+				//   //   // No user is signed in.
+				//   //   console.log("No user is signed in");
+				//   // }
+				// }
+         		
          		
          	}
+         
+         		
+        }
 
-        }])
+      }])
 
 
 .service('ownedService', [function(){

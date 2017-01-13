@@ -142,6 +142,22 @@ function ($scope, $stateParams, GroceryListService, $ionicPopup) {
 		"rice"
 	];
 	
+	var populateItems = function(){
+		return GroceryListService
+				.getItems()
+				.then(function(snapshot){
+					console.log(snapshot);
+					//console.log(snapshot.child('items').val());
+					snapshot.forEach(function(childSnapshot){
+						var currentItem = childSnapshot.key;
+						console.log(currentItem);
+					})
+		
+		});
+	
+	};
+
+	populateItems();
 
 	$scope.addItem = function(){
 	//var exist = false;
@@ -175,6 +191,7 @@ function ($scope, $stateParams, GroceryListService, $ionicPopup) {
 		//view
 		$scope.items = [];
 	};
+	
 }])
 
 

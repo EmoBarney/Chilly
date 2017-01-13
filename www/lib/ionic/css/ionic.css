@@ -23,6 +23,41 @@
   used under CC BY http://creativecommons.org/licenses/by/4.0/
   Modified icons to fit ionicon’s grid from original.
 */
+
+/* Customize CSS */
+#groceryView #addItemButton, #deleteItemButton {
+  
+
+
+}
+
+ion-item span {
+  float: right;
+  cursor: pointer;
+
+}
+
+.fade {
+  transition: 0.5s linear all;
+  -webkit-transition: 0.5s linear all;
+}
+/* starting state of input entered */
+.fade.ng-enter {
+  opacity: 0;
+}
+/* end state of input entered*/
+.fade.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+/* start state of item eliminated */
+.fade.ng-leave {
+  opacity: 1;
+}
+/* end state of item eliminated */
+.fade.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
 @font-face {
   font-family: "Ionicons";
   src: url("../fonts/ionicons.eot?v=2.0.1");
@@ -7152,6 +7187,8 @@ button.swiper-pagination-bullet {
   -ms-perspective: 1200px; }
 
 /* Fade */
+
+
 .swiper-container-fade.swiper-container-free-mode .swiper-slide {
   -webkit-transition-timing-function: ease-out;
   -moz-transition-timing-function: ease-out;
