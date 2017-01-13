@@ -1,5 +1,21 @@
 <ion-view title="Owned" id="page2">
   <ion-content padding="true" class="has-header">
+
+    <div>Sort By:</div>
+    <div class="list">
+        <label class="item item-input item-select">
+            <div class="input-label">
+                &nbsp;
+            </div>
+            <select ng-model="sortBy.option">
+                <option value="Alphabetical">Alphabetical</option>
+                <option value="Newest First">Newest First</option>
+                <option value="Oldest First">Oldest First</option>
+            </select>
+        </label>
+    </div>
+
+    <div>Your Items:</div>
     <ion-list id="owned-list1">
       <ion-item id="owned-items" class="fade" ng-repeat="item in items">
       {{item}}

@@ -17,6 +17,8 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListSe
 		expiration: null
 	}; */
 	$scope.item = {};
+
+	$scope.sortBy = {option:'Alphabetical'};
 	
 	/* getItems()
 	 * Description: Function that pushes all the items in the db to $scope.items
@@ -47,6 +49,8 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListSe
 	 * Return: none
 	 */
 	$scope.add = function(){
+
+		//console.log($scope.sortBy.option);
 
 		/*
 		console.log( $scope.item.name );
