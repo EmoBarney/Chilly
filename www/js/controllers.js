@@ -135,10 +135,10 @@ function ($scope, $stateParams, $state, loginService) {
 
 }])
    
-.controller('groceryListCtrl', ['$scope', '$stateParams', 'GroceryListService', '$ionicPopup',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('groceryListCtrl', ['$scope', '$stateParams', 'GroceryListService', '$ionicPopup', '$state',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, GroceryListService, $ionicPopup) {
+function ($scope, $stateParams, GroceryListService, $ionicPopup,$state) {
 	//get existed items from service and add to the items list
 	//delete item in items list view and same item in database items.
 
@@ -146,29 +146,25 @@ function ($scope, $stateParams, GroceryListService, $ionicPopup) {
 	$scope.input = {};
 	/* item list items */
 	
-	$scope.items = [
-		"apple",
-		"banana",
-		"noodle",
-		"rice"
-	];
+	$scope.items = [];
 	
 	var populateItems = function(){
 		return GroceryListService
 				.getItems()
 				.then(function(snapshot){
-					console.log(snapshot);
-					//console.log(snapshot.child('items').val());
 					snapshot.forEach(function(childSnapshot){
 						var currentItem = childSnapshot.key;
-						console.log(currentItem);
+						$scope.items.push(currentItem);
 					})
 		
 		});
 	
 	};
 
-	populateItems();
+	populateItems().then(function(){
+		$state.go($state.current, {}, {reload: true});
+	});
+	
 
 	$scope.addItem = function(){
 	//var exist = false;

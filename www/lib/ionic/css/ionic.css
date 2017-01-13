@@ -39,16 +39,16 @@ ion-item span {
 
 .fade {
   transition: 0.5s linear all;
-  -webkit-transition: 0.5s linear all;
+  -webkit-transition: s linear all;
 }
 /* starting state of input entered */
-.fade.ng-enter {
+/*.fade.ng-enter {
   opacity: 0;
-}
+}*/
 /* end state of input entered*/
-.fade.ng-enter.ng-enter-active {
+/*.fade.ng-enter.ng-enter-active {
   opacity: 1;
-}
+}*/
 /* start state of item eliminated */
 .fade.ng-leave {
   opacity: 1;
