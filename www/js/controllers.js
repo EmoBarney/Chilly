@@ -10,11 +10,13 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListSe
 	//List of all items in the fridge
 	$scope.items = [];
 	//Template of each item
+	/*
 	$scope.item = {
 		name: null,
 		quantity: null,
 		expiration: null
-	};
+	}; */
+	$scope.item = {};
 	
 	/* getItems()
 	 * Description: Function that pushes all the items in the db to $scope.items
@@ -59,15 +61,24 @@ function ($scope, $stateParams, ownedService, $ionicPopup, $state, GroceryListSe
 			if( !$scope.item.expiration ){
 				$scope.item.expiration = "";
 			}
+			//Check for duplicate name
+			for( var i = 0; i < $scope.items.length; ++i ){
+				if( $scope.items[i].name == $scope.item.name ){
+					console.log( "Adding duplicate." );
+					$ionicPopup.alert({
+						title:"Item is already in the list.",
+						template:"Please update that item instead." 
+					});
+					$scope.item = {};
+					return;
+					
+				} 
+			}
 			ownedService.updateItem($scope.item);
 			$scope.items.push($scope.item);
 			console.log( 'Added Item: '+ $scope.item.name +
 				', quant + exp: ' + $scope.item.quantity + $scope.item.expiration);
-			$scope.item = {
-				name: null,
-				quantity: null,
-				expiration: null
-			};
+			$scope.item = {};
 		}
 		else{
 			$ionicPopup.alert({
